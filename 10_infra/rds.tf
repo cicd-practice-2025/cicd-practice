@@ -50,14 +50,16 @@ resource "aws_db_subnet_group" "mysql_standalone_subnetgroup" {
 # ---------------------------------------------
 resource "aws_db_instance" "mysql_standalone" {
   engine         = "mysql"
-  engine_version = "8.0.28"
+  # engine_version = "8.0.28" 古すぎるため修正
+  engine_version = "8.0.40"
 
   identifier = "${var.project}-${var.environment}-mysql-standalone"
 
   username = var.username
   password = var.password
 
-  instance_class = "db.t2.micro"
+  # instance_class = "db.t2.micro" 古すぎるため修正
+  instance_class = "db.t3.micro"
 
   allocated_storage     = 20
   max_allocated_storage = 50
@@ -72,7 +74,7 @@ resource "aws_db_instance" "mysql_standalone" {
   availability_zone      = "ap-northeast-1a"
   port                   = 3306
 
-  name                       = "tastylog"
+  db_name                    = "tastylog"
   parameter_group_name       = aws_db_parameter_group.mysql_standalone_parametergroup.name
   option_group_name          = aws_db_option_group.mysql_standalone_optiongroup.name
   backup_window              = "04:00-05:00"

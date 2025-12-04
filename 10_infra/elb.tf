@@ -60,7 +60,7 @@ resource "aws_lb_target_group" "webapp_blue" {
 }
 
 resource "aws_lb_target_group" "webapp_green" {
-  name        = "${var.project}-${var.environment}-webapp-green-tg"
+  name        = "${var.project}-webapp-green-tg"
   vpc_id      = aws_vpc.vpc.id
   protocol    = "HTTP"
   port        = 3000

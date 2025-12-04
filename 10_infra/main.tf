@@ -2,18 +2,19 @@
 # Terraform configuration
 # ---------------------------------------------
 terraform {
-  required_version = ">=0.13"
+  required_version = ">= 1.10.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      version = "~> 5.0"
     }
   }
+
   backend "s3" {
-    bucket  = "{YOUR-S3-BUCKET-NAME}"
-    key     = "{YOUR-S3-BUCKET-KEY}"
+    bucket  = "cicd-practice-2025-1204"
+    key     = "cicd-practice.tfstate"
     region  = "ap-northeast-1"
-    profile = "terraform"
+    profile = "Terraform-cicd-practice"
   }
 }
 
@@ -21,12 +22,12 @@ terraform {
 # Provider
 # ---------------------------------------------
 provider "aws" {
-  profile = "terraform"
+  profile = "Terraform-cicd-practice"
   region  = "ap-northeast-1"
 }
 
-provider "aws" {
-  alias   = "virginia"
-  profile = "terraform"
-  region  = "us-east-1"
-}
+# provider "aws" {
+#   alias   = "virginia"
+#   profile = "terraform"
+#   region  = "us-east-1"
+# }
