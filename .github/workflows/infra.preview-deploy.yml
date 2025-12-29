@@ -14,11 +14,28 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  TF_VERSION: 1.2.8
+
+defaults:
+  run:
+    shell: bash
+    working-directory: "10_infra/"
+
 jobs:
   preview:
     name: "preview"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: |
-          echo "hello world"
+      - name: checkout repository
+        uses: actions/checkout@v6
+      - name: setup terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+
+
+  # fetch-depth: 1 # (OP)フェッチするコミットの深さ 0で全て
+  #           terraform_version: latest # (OP)terraform のバージョン指定
+  #           terraform_wrapper: false  # (OP)処理結果を変数に保存するか？
