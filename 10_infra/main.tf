@@ -14,7 +14,7 @@ terraform {
     bucket  = "cicd-practice-2025-1204"
     key     = "cicd-practice.tfstate"
     region  = "ap-northeast-1"
-    profile = "Terraform-cicd-practice"
+    #profile = "Terraform-cicd-practice"
   }
 }
 
