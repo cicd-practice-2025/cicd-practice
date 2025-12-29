@@ -35,4 +35,4 @@ jobs:
           terraform_version: ${{ env.TF_VERSION }}
       - name: 3. terraform terraform
         run: |
-          terraform fmr -check
+          terraform fmt -check
