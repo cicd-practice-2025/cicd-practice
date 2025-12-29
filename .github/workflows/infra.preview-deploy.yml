@@ -27,15 +27,12 @@ jobs:
     name: "preview"
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
+      - name: 1. checkout repository
         uses: actions/checkout@v6
-      - name: setup terraform
+      - name: 2. setup terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-
-
-
-  # fetch-depth: 1 # (OP)フェッチするコミットの深さ 0で全て
-  #           terraform_version: latest # (OP)terraform のバージョン指定
-  #           terraform_wrapper: false  # (OP)処理結果を変数に保存するか？
+      - name: 3. terraform terraform
+        run: |
+          terraform fmr -check
