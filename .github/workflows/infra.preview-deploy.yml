@@ -28,20 +28,25 @@ jobs:
     name: "preview"
     runs-on: ubuntu-latest
     steps:
-      - name: 1. checkout repository
+      - name: 1.Checkout Repository
         uses: actions/checkout@v6
-      - name: 2. setup terraform
+      - name: 2.Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-      - name: 3. terraform fmt
+      - name: 3.Terraform fmt
         run: |
           terraform fmt -check
-      - name: 4. configure aws credentials
+      - name: 4.Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v5.1.1
         with:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
-      - name: 5. terraform init
+      - name: 5.Terraform init
         run: |
           terraform init -no-color
+      - name: 6.Terraform Validate
+        run: |
+          terraform validate -no-color
+      # - name: 7.Terraform Plan
+      # - name: 8.Slack Notify
