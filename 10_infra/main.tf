@@ -22,8 +22,8 @@ terraform {
 # Provider
 # ---------------------------------------------
 provider "aws" {
-  profile = "Terraform-cicd-practice"
-  region  = "ap-northeast-1"
+  #profile = "Terraform-cicd-practice"
+  region = "ap-northeast-1"
 }
 
 # provider "aws" {
