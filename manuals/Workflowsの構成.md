@@ -126,7 +126,7 @@ jobs:
 
 ------------------------------
 #### ※ シークレット
-```
+```properties
 GithubのWebページ上にクレデンシャルを秘匿する
 ログイン等で利用する際は変数として呼び出す
 利点はクレデンシャルをハードコードせずに済む
@@ -137,4 +137,21 @@ Settings ⇒ Secrets and Variables ⇒ Actions ⇒ New Reposiries Secret
 注意
 Github Actions で定義した変数と他で定義した変数の呼出し方は異なる
 Github Actionsでは ${{ 変数 }} と呼び出す
+```
+------------------------------
+#### ※ ジョブの依存関係
+```yaml
+#needs を使う
+
+jobs:
+  job1:
+  #--- 省略 ---
+
+  job2:
+    needs: [job1]
+  #--- 省略 ---
+
+  # 複数指定もできる
+  job3:
+    needs: [job1, job2]
 ```

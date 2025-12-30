@@ -8,8 +8,8 @@
 
 1. checkout            : GitHubからソースコードを取得する（actions/checkout）
 2. setup terraform     : 実行環境 (runner) にTerraformツールをインストールする
-3. terraform fmt       : コードの書き方（フォーマット）が綺麗かチェックする
-4. configure credential: AWSへの認証を行う（OIDC認証の設定を確認する）
+3. configure credential: AWSへの認証を行う（OIDC認証の設定を確認する）
+4. terraform fmt       : コードの書き方（フォーマット）が綺麗かチェックする
 5. terraform init      : Terraformの初期化（プラグインのDLなど）
 6. terraform validate  : 文法的な間違いがないか検証する
 7. terraform plan      : AWSに対して「何が変更されるか」だけ確認する（ドライラン）

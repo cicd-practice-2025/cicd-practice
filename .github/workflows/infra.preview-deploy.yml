@@ -1,3 +1,4 @@
+# CICDのうち、CIを記述してコードのチェックなどを行う
 name: "infra preview & deploy"
 
 on:
@@ -36,7 +37,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v6
         
-      - name: Setup tf
+      - name: tf setup
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
@@ -56,12 +57,12 @@ jobs:
         run: |
           terraform init -no-color
 
-      - name: tf Validate
+      - name: tf validate
         run: |
           terraform validate -no-color
 
       # --- Plan Phase ---
-      - name: tf Plan
+      - name: tf plan
         run: |
           terraform plan \
             -var 'project=${{ env.TF_PROJECT }}' \
