@@ -35,7 +35,7 @@ jobs:
 
       # --- Setup Phase ---
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         
       - name: tf setup
         uses: hashicorp/setup-terraform@v3
@@ -43,7 +43,7 @@ jobs:
           terraform_version: ${{ env.TF_VERSION }}
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v5.1.1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
@@ -72,4 +72,14 @@ jobs:
             -input=false \
             -no-color \
             -detailed-exitcode
-      # - name: 8.Slack Notify
+
+      - name: 8.Slack Notify
+        uses: rtCamp/action-slack-notify@v2
+        if: always()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: "Terraform Plan Result"
+          SLACK_MESSAGE: "ワークフローが終了しました"
+          SLACK_COLOR: ${{ job.status }} 
+            # GitHub Actions が自動的に結果を代入する
+            # Slackのサイドバーの色を Successならば緑といった具合に変更する

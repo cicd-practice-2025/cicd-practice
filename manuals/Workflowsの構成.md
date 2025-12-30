@@ -87,7 +87,7 @@ defaults:
 ```yaml
 # マーケットプレイスからアクションを探す
  # 1) https://github.com/marketplace にアクセス
- # 2) github.com の左メニューからもアクセス可能
+ # 2) github.com の左メニュー[Marketplace]からもアクセス可能
  # 3) 検索窓から actions名を検索
  # ※ ブランチの切替えが特に利用頻度が高い
 
