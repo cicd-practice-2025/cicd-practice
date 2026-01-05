@@ -99,5 +99,8 @@ jobs:
     # if... tf planで結果が2(変更あり)の場合のみ実行する
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: run test command
         run: echo "hello world"

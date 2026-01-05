@@ -10,7 +10,7 @@ resource "aws_ecr_repository" "webapp" {
   }
 
   tags = {
-    Name    = "${var.project}-webapp1"
+    Name    = "${var.project}-webapp0"
     Project = var.project
   }
 
