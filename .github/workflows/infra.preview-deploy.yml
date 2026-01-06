@@ -101,8 +101,8 @@ jobs:
     name: "deploy"
     needs: preview
     if: needs.preview.outputs.TF_PLAN_EXITCODE == 2
-    # if... terraform planで結果が2(変更あり)の場合のみ実行する
-    environment: production
+    # terraform planで結果が2(変更あり)の場合のみ実行する
+    environment: production #承認フロー実装のため追加
     runs-on: ubuntu-latest
     steps:
       # --- Setup Phase ---
@@ -124,7 +124,19 @@ jobs:
       - name: terraform fmt
         run: |
           terraform fmt -check
-          
+
       - name: terraform init
         run: |
           terraform init -no-color
+
+      # --- Apply Phase ---
+      - name: terraform apply
+        run: |
+          terraform apply \
+            -var 'project=${{ env.TF_PROJECT }}' \
+            -var 'environment=${{ env.TF_ENVIRONMENT }}' \
+            -var 'username=${{ secrets.MYSQL_USERNAME }}' \
+            -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
+            -input=false \
+            -no-color \
+            -auto-approve
