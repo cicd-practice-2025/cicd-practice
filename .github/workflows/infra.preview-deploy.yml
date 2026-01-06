@@ -83,6 +83,7 @@ jobs:
             -no-color \
             -detailed-exitcode
 
+      # --- Notify Phase ---
       - name: Slack Notify
         if: steps.plan.outputs.exitcode == 2 # 2の場合のみ通知
         uses: rtCamp/action-slack-notify@v2
@@ -140,3 +141,16 @@ jobs:
             -input=false \
             -no-color \
             -auto-approve
+      
+      # --- Notify Phase ---
+      - name: Slack Notify
+        if: always() # 前のステップの結果に関わらず実行させる
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: "Terraform Apply Result"
+          SLACK_MESSAGE: "ワークフローが終了しました"
+          SLACK_COLOR: ${{ job.status }} 
+            # ${{ job.status }}... 
+            # GitHub Actions が自動的に結果を代入する
+            # Slackのサイドバーの色を Successならば緑といった具合に変更する
