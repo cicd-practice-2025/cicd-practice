@@ -14,5 +14,5 @@ resource "aws_ecr_repository" "webapp" {
     Project = var.project
   }
 
-  # force_delete = true
+  force_delete = true
 }
