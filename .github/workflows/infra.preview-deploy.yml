@@ -36,18 +36,18 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       TF_PLAN_EXITCODE: ${{ steps.plan.outputs.exitcode }}
-      # ~.exitcode... tf planの実行結果(0,1,2)を取得
+      # ~.exitcode... terraform planの実行結果(0,1,2)を取得
     steps:
 
       # --- Setup Phase ---
       - name: Checkout Repository
         uses: actions/checkout@v4
-        
-      - name: tf setup
+
+      - name: terraform setup
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-
+          
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -55,20 +55,20 @@ jobs:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
 
       # --- Validate Phase ---
-      - name: tf fmt
+      - name: terraform fmt
         run: |
           terraform fmt -check
 
-      - name: tf init
+      - name: terraform init
         run: |
           terraform init -no-color
 
-      - name: tf validate
+      - name: terraform validate
         run: |
           terraform validate -no-color
 
       # --- Plan Phase ---
-      - name: tf plan
+      - name: terraform plan
         continue-on-error: true
         # continue-on-error... 2(変更あり)でも処理を続ける
         # 2は本来、エラーとして扱われる
@@ -99,14 +99,32 @@ jobs:
 #------------------------------
   deploy:
     name: "deploy"
-    needs:
-      - preview
+    needs: preview
     if: needs.preview.outputs.TF_PLAN_EXITCODE == 2
-    # if... tf planで結果が2(変更あり)の場合のみ実行する
+    # if... terraform planで結果が2(変更あり)の場合のみ実行する
+    environment: production
     runs-on: ubuntu-latest
     steps:
+      # --- Setup Phase ---
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: run test command
-        run: echo "hello world"
+      - name: terraform setup
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
+
+      # --- Validate Phase ---
+      - name: terraform fmt
+        run: |
+          terraform fmt -check
+          
+      - name: terraform init
+        run: |
+          terraform init -no-color
